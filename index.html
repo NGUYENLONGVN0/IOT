@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <link rel="icon" href="308511361_465143725657566_8885034168530206316_n.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thu thập thông tin</title>
+    <title>Form đăng ký CLB</title>
     <style>
         * {
             margin: 0;
@@ -15,7 +14,7 @@
 
         body {
             color: white;
-            overflow: auto; /* Cho phép cuộn trang */
+            overflow: auto;
         }
 
         .video-background {
@@ -95,13 +94,18 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        /* Thank you page styles */
         .thank-you-content {
-            display: none;
+            opacity: 0;
+            visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             padding: 2rem;
             background-color: rgba(0, 0, 0, 0.7);
             border-radius: 8px;
-            margin-top: 2rem;
+            transition: all 0.5s ease-in-out;
         }
 
         .thank-you-content h2 {
@@ -115,7 +119,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Responsive adjustments */
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -143,59 +146,115 @@
     </style>
 </head>
 <body>
-    <!-- Video background - bạn sẽ thêm video của mình sau -->
-    <video autoplay loop muted class="video-background">
+    <video id="form-video" autoplay loop muted class="video-background">
         <source src="https://cdn.pixabay.com/video/2023/12/10/192779-893446888.mp4?download" type="video/mp4">
-        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0db10077-002d-4ea6-ab20-030ca40ed264.png" alt="Modern office space with people working collaboratively" />
+        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b854f642-4a0d-400e-b8ad-808188b60c00.png" alt="Background video for form page" />
+    </video>
+
+    <video id="thankyou-video" autoplay loop muted class="video-background" style="display:none">
+        <source src="https://cdn.pixabay.com/video/2023/07/08/170655-843752693.mp4?download" type="video/mp4">
+        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/abe4a158-372f-4275-8442-600b4d54c1e6.png" alt="Background video for thank you page" />
     </video>
     
     <div class="overlay"></div>
 
     <div class="container">
-        <!-- Main content -->
         <div id="main-content">
             <h1>Điền thông tin của bạn</h1>
             
-            
-<form action="https://formspree.io/f/xyzjovve" method="POST">
-    <div class="form-group">
-        <label for="fullname">Họ và tên:</label>
-        <input type="text" id="fullname" name="fullname" required>
+            <form id="info-form" action="https://formspree.io/f/xyzjovve" method="POST">
+                <div class="form-group">
+                    <label for="fullname">Họ và tên:</label>
+                    <input type="text" id="fullname" name="fullname" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Số điện thoại:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Địa chỉ:</label>
+                    <input type="text" id="address" name="address" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Giới tính:</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">-- Chọn --</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                        <option value="Khác">Khác</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+    <label for="achievements">Những thành tích đạt được ở cấp 2 (nếu có):</label>
+    <textarea id="achievements" name="achievements"></textarea>
+</div>
+
+<div class="form-group">
+    <label for="competitions">Đã từng tham gia các cuộc thi sáng tạo khoa học hay khéo tay kỹ thuật chưa:</label>
+    <textarea id="competitions" name="competitions"></textarea>
+</div>
+
+                <input type="hidden" name="source" value="Company Website Form">
+
+                <button type="submit" class="submit-btn">Gửi thông tin</button>
+            </form>
+        </div>
+
+        <div id="thank-you" class="thank-you-content">
+            <h1>Cảm ơn bạn!</h1>
+            <h2>Chúng tôi đã nhận được thông tin của bạn</h2>
+            <p>Cảm ơn bạn đã đăng ký tham gia CLB STEM IOT THPT Củ Chi</p>
+            <p>Mọi thắc mắc xin vui lòng liên hệ qua email hoặc số điện thoại dưới đây !.</p>
+            <p>EMAIL: mn20122009@gmail.com, SĐT:038238506</p>
+            <p>Xin chân thành cảm ơn!</p>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('info-form');
+            const mainContent = document.getElementById('main-content');
+            const thankYouContent = document.getElementById('thank-you');
 
-    <div class="form-group">
-        <label for="phone">Số điện thoại:</label>
-        <input type="tel" id="phone" name="phone" required>
-    </div>
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
 
-    <div class="form-group">
-        <label for="address">Địa chỉ:</label>
-        <input type="text" id="address" name="address" required>
-    </div>
-
-    <div class="form-group">
-        <label for="gender">Giới tính:</label>
-        <select id="gender" name="gender" required>
-            <option value="">-- Chọn --</option>
-            <option value="Nam">Nam</option>
-            <option value="Nữ">Nữ</option>
-            <option value="Khác">Khác</option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="feedback">Đóng góp ý kiến:</label>
-        <textarea id="feedback" name="feedback"></textarea>
-    </div>
-
-    <input type="hidden" name="source" value="Company Website Form">
-
-    <button type="submit" class="submit-btn">Gửi thông tin</button>
-</form>
+                fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    body: new FormData(form)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        mainContent.style.opacity = '0';
+                        setTimeout(() => {
+                            mainContent.style.visibility = 'hidden';
+                            document.getElementById('form-video').style.display = 'none';
+                            document.getElementById('thankyou-video').style.display = 'block';
+                            thankYouContent.style.opacity = '1';
+                            thankYouContent.style.visibility = 'visible';
+                        }, 500);
+                    } else {
+                        alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
